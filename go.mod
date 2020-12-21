@@ -1,4 +1,4 @@
-module github.com/KyotaHelloworld/LWTK_excelize
+module github.com/KyotaHelloworld/LWTK_excelize/v3
 
 go 1.11
 

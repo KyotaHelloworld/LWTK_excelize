@@ -58,6 +58,15 @@ func (f *File) prepareChartSheetDrawing(cs *xlsxChartsheet, drawingID int, sheet
 // given format sets.
 func (f *File) addChart(formatSet *formatChart, comboCharts []*formatChart) {
 	count := f.countCharts()
+
+	legend := (*cLegend)(nil)
+	if !formatSet.Legend.None {
+		legend = &cLegend{
+			LegendPos: &attrValString{Val: stringPtr(chartLegendPosition[formatSet.Legend.Position])},
+			Overlay:   &attrValBool{Val: boolPtr(false)},
+		}
+	}
+
 	xlsxChartSpace := xlsxChartSpace{
 		XMLNSa:         NameSpaceDrawingML.Value,
 		Date1904:       &attrValBool{Val: boolPtr(false)},
@@ -139,10 +148,7 @@ func (f *File) addChart(formatSet *formatChart, comboCharts []*formatChart) {
 				Thickness: &attrValInt{Val: intPtr(0)},
 			},
 			PlotArea: &cPlotArea{},
-			Legend: &cLegend{
-				LegendPos: &attrValString{Val: stringPtr(chartLegendPosition[formatSet.Legend.Position])},
-				Overlay:   &attrValBool{Val: boolPtr(false)},
-			},
+			Legend:   legend,
 
 			PlotVisOnly:      &attrValBool{Val: boolPtr(false)},
 			DispBlanksAs:     &attrValString{Val: stringPtr(formatSet.ShowBlanksAs)},
